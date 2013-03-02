@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>{% block title %}{% endblock %} - {{ website_title }} </title>
+		<meta name="keywords" content="green, home, CSS, HTML" />
+		<meta name="description" content="Green Home Monitor" />
+		<link href="/static/templatemo_style.css" rel="stylesheet" type="text/css" />
+
+		{% block head %}{% endblock %}
+		{% block extrastyle %}{% endblock %}
+		{% block extrahead %}{% endblock %}
+
+	</head>
+	<body>
+
+		<div id="templatemo_document_wrapper">
+			<div id="templatemo_wrapper">
+			
+				<div id="templatemo_menu">
+					{% include "menu.html" %}
+				</div> <!-- end of templatemo_menu -->
+				
+				<div id="templatemo_header">
+					<div id="site_title">
+						<h1><a href="http://www.templatemo.com">
+							<img src="/static/images/templatemo_logo.png" alt="Logo" /></a></h1>
+					</div> <!-- end of site_title -->    
+					<div id="header_content">
+						<p>	A Terra não é uma herança de nossos páis, e sim um empréstimo de nossos filhos!. </p>
+						<a href="http://pensador.uol.com.br/frases_ecologicas_sobre_meio_ambiente" class="more" target="_blank">More</a>
+					</div>
+				</div>
+				
+				<!-- Conteudo Principal -->
+				<div id="templatemo_main">
+					{% block content %}{% endblock %}
+					
+					<div class="cleaner"></div>
+				</div>
+				
+			</div> <!-- end of wrapper -->
+		</div>
+	
+		<div id="templatemo_footer_wrapper">
+			<div id="templatemo_footer">
+		        <a href="/">Home</a> | <a href="services.html">Services</a> | <a href="blog.html">Blog</a> | <a href="gallery.html">Gallery</a> | <a href="contact.html">Contact</a>
+		        <br /><br />
+				Copyright &copy; 2013 <a href="/static/sobre.html" target="popupwindow" onclick='window.open("/static/sobre.html", "popupwindow", "scrollbars=yes,width=590,height=360");return true'>Cesar Augusto</a> - Todos os direitos reservados
+		    </div> <!-- end of templatemo_footer -->
+		</div>
+	</body>
+</html>

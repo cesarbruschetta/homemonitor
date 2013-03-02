@@ -1,34 +1,37 @@
-# Django settings for home_monitor project.
+# -*- coding: utf-8 -*-
+# Django settings for websites_manager project.
+import dj_database_url, os
+
+PROJECT_ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 DEBUG = True
+DEVEL = True
+
 TEMPLATE_DEBUG = DEBUG
 
+if DEVEL:
+    os.environ['DATABASE_URL']='mysql://root:root@localhost:3306/homeMonitor'
+
+
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Cesar Augusto', 'cesarbruschetta@hotmail.com'),
 )
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
+#Banco de Dados Para heroku
+DATABASES = {}
+DATABASES['default'] =  dj_database_url.config()
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/Sao_Paulo'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
 SITE_ID = 1
 
@@ -67,6 +70,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_ROOT_PATH, "static"),
 )
 
 # List of finder classes that know how to find static files in
@@ -106,6 +110,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_ROOT_PATH, "templates"),
 )
 
 INSTALLED_APPS = (
@@ -116,10 +121,51 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'home_monitor.app',
+    'social_auth',
+    'south',
+    'gunicorn',
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.contrib.messages.context_processors.messages",     
+    'social_auth.context_processors.social_auth_by_name_backends',
+    'social_auth.context_processors.social_auth_backends',
+    'social_auth.context_processors.social_auth_by_type_backends',
+    'social_auth.context_processors.social_auth_login_redirect',
+    'home_monitor.context_processors.context',
+)
+
+# Configuração de altenticação 
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+GOOGLE_OAUTH2_CLIENT_ID      = '1007164268849.apps.googleusercontent.com'
+GOOGLE_OAUTH2_CLIENT_SECRET  = 'MvUqHS5-D3kKIxOlMhcqXIxF'
+
+
+LOGIN_URL          = '/login/google-oauth2/'
+LOGIN_REDIRECT_URL = '/'
+#LOGIN_ERROR_URL    = '/login-error/'
+
+
+# Configuração do Home Server
+
+URL_HOME_SERVER = 'homeserve.no-ip.org'
+PORT_HOME_SERVER = '8090'
+URI_HOME_SERVER = '/'
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -131,7 +177,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'filters': {
         'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
+            '()': 'django.utils.log.RequireDebugFalse',
         }
     },
     'handlers': {
