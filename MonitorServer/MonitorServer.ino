@@ -12,10 +12,10 @@ const int ledVerde = 3;
 const int ledVermelho = 4;
 
 // Pinos Sensores
-const int sensorPC = 1;
-const int sensorRack = 0;
-const int sensorHome = 2;
-const int TensaoHome = 3;
+const int sensorPC = A1;
+const int sensorRack = A0;
+const int sensorHome = A2;
+const int TensaoHome = A3;
 
 // Enter a MAC address and IP address for your controller below.
 // The IP address will be dependent on your local network:
@@ -33,7 +33,7 @@ void setup(){
   Ethernet.begin(mac, ip, gateway, subnet);
   server.begin();
  
-  Serial.begin(9600);
+  //Serial.begin(9600);
 }
 
 void loop(){
@@ -83,12 +83,10 @@ void getServerWeb(){
 }
 
 float calculaTemperatura(int val){
-  float temperature = 0.0,
-        temperatureC = 0.0;
+  float temperature = 0.0;
   
-  temperature = (val * 0.0049);
-  temperatureC = (temperature * 100); 
-  return temperatureC;
+  temperature = (5.0 * val*100.0)/1023.0;
+  return temperature;
 }
 
 void getConectRede(){
